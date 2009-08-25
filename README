@@ -1,0 +1,31 @@
+ActsAsReference
+===============
+
+ActsAsReference is a plugin which provides a convenient set of extensions to Rails' belongs_to and has_one associations.
+
+
+Example
+=======
+
+class Company < ActiveRecord::Base
+  acts_as_reference :name, :create => true
+  
+  has_one :person
+end
+
+class Person < ActiveRecord::Base
+  acts_as_reference :name, :create => true
+  
+  belongs_to :company
+end
+
+Person.find_using_reference("Erol")       # Person.find_or_create_by_name("Erol")
+Person["Erol"]                            # Person.find_using_reference("Erol")
+
+person = Person.new
+person.company = "A New Company"          # person.company = Company.find_using_reference("A New Company")
+person.company.to_s                       # person.company.name.to_s
+
+
+
+Copyright (c) 2008 Erol M. Fornoles, released under the MIT license
